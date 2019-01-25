@@ -1,0 +1,77 @@
+<launch>
+    <!-- bag -->
+
+    <!-- laser Node-->
+    <!--<node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+        <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
+        <param name="serial_baudrate"     type="int"    value="115200"/>
+        <param name="frame_id"            type="string" value="laser"/>
+        <param name="inverted"            type="bool"   value="false"/>
+        <param name="angle_compensate"    type="bool"   value="true"/>
+    </node>
+    -->
+    <!-- tf(laser->baselink) -->
+    <arg name="razor_config_file" default="$(find razor_imu_9dof)/config/my_razor.yaml"/>
+    <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node" output="screen">
+        <rosparam file="$(arg razor_config_file)" command="load"/>
+        <remap from="/imu" to="/imu/data_raw" />
+    </node>
+
+    <!-- ippcore_tf -->
+    <!--
+    <node pkg="ippcore" type="ippcore_tf"
+          name="ippcore_tf" />
+          -->
+
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="Cerasus_test" output="screen">
+        <param name="use_magnetic_field_msg" value="true"/>
+        <param name="use_mag" value="false"/>
+        <param name="constant_dt" value="0.01"/>
+        <param name="world_frame" value="enu"/>
+        <param name="gain" value="0"/>
+        <!-- Map size / start point -->
+        <!-- Map update parameters -->
+        <!--
+          <param name="pub_drawings" value="true"/>
+          <param name="pub_debug_output" value="true"/>
+        -->
+    </node>
+
+    <!--rviz-->
+
+    <!--gmapping-->
+    <!--
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="map_update_interval" value="5.0"/>
+        <param name="maxUrange" value="12.0"/>
+        <param name="sigma" value="0.05"/>
+        <param name="kernelSize" value="1"/>
+        <param name="lstep" value="0.05"/>
+        <param name="astep" value="0.05"/>
+        <param name="iterations" value="5"/>
+        <param name="lsigma" value="0.075"/>
+        <param name="ogain" value="3.0"/>
+        <param name="lskip" value="0"/>
+        <param name="srr" value="0.1"/>
+        <param name="srt" value="0.2"/>
+        <param name="str" value="0.1"/>
+        <param name="stt" value="0.2"/>
+        <param name="linearUpdate" value="1.0"/>
+        <param name="angularUpdate" value="0.5"/>
+        <param name="temporalUpdate" value="3.0"/>
+        <param name="resampleThreshold" value="0.5"/>
+        <param name="particles" value="30"/>
+        <param name="xmin" value="-50.0"/>
+        <param name="ymin" value="-50.0"/>
+        <param name="xmax" value="50.0"/>
+        <param name="ymax" value="50.0"/>
+        <param name="delta" value="0.05"/>
+        <param name="llsamplerange" value="0.01"/>
+        <param name="llsamplestep" value="0.01"/>
+        <param name="lasamplerange" value="0.005"/>
+        <param name="lasamplestep" value="0.005"/>
+        <param name="map_update_interval" value="2"/>
+    </node>
+    -->
+
+</launch>

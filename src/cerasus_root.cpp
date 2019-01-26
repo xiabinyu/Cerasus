@@ -1,4 +1,5 @@
-//
+//This node send a ros command to the system.
+//If you need to set up a new command, please add here.
 // Created by ipp on 19-1-2.
 //
 

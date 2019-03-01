@@ -144,10 +144,10 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(${PROJECT_NAME}_tf
+target_link_libraries(${PROJECT_NAME}_tf
                        ${catkin_LIBRARIES}
  )
- target_link_libraries(${PROJECT_NAME}_root
+target_link_libraries(${PROJECT_NAME}_root
         ${catkin_LIBRARIES}
         )
 target_link_libraries(${PROJECT_NAME}_serials

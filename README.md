@@ -2,7 +2,7 @@
 ## Introduction
 Project Cerasus aims to ...
 ## Contributors
-GaoYang XiaBinyu LuJiachen
+GaoYang XiaBinyu LuJiachen LiuTianle
 ## Code Style
 ### ROS part
 1. Node should be named as cerasus_`type`_`number`(or)`name`. e.g. cerasus_pid_2

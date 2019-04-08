@@ -133,7 +133,7 @@ include_directories(
  add_executable(${PROJECT_NAME}_root src/cerasus_root.cpp)
  add_executable(${PROJECT_NAME}_serials src/cerasus_serials.cpp)
  add_executable(${PROJECT_NAME}_test src/cerasus_test.cpp)
- add_executable(${PROJECT_NAME}_odom src/cerasus_odom.cpp)
+ add_executable(${PROJECT_NAME}_odom src/cerasus_odom.cpp src/cerasus_odom_class.cpp src/cerasus_odom_class.h)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

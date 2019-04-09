@@ -1,5 +1,6 @@
 //Class Head file
-#include "cerasus_odom_class.cpp"
+#ifndef CERASUS_ODOM_CLASS
+#define CERASUS_ODOM_CLASS
 
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/Vector3.h>
@@ -20,3 +21,5 @@ private:
     float CYCLE;
 
 };
+
+#endif

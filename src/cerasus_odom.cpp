@@ -10,6 +10,20 @@ CerasusOdom ceo;
 int main(int argc, char** argv){
 	ros::init(argc, argv, "cerasus_odom");
 
-	ros::NodeHandle node;
+	ros::NodeHandle nh;
+
+
+	ros::Subscriber sub = nh.subscribe("/imu", 1, Callback);
+	ros::spin();
+	return 0;
+}
+
+void Callback(const sensor_msgs::Imu imu){
+	static tf::TransformBroadcaster br;
+	tf::Transform ceo.OdomUpdate(imu);
+	br.sendTransform(tf::StampedTransform(transform,
+										  ros::Time::now(),
+										  "odom",
+										  "base_link"));
 
 }

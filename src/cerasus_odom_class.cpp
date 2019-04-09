@@ -2,11 +2,15 @@
 //F(x,y)=(x*cos(a)-y*sin(a),x*sin(a)+y*cos(a))
 #include "cerasus_odom_class.h"
 #include <math.h>
-CerasusOdom::CerasusOdom(tf::Transform _position,float _cycle=0.01){
+CerasusOdom::CerasusOdom(tf::Transform _position,float _cycle){
     CYCLE=_cycle;
     Odom=_position;
 };
-
+CerasusOdom::CerasusOdom(){
+    CYCLE=0.01f;
+    Velocity.x=0;Velocity.y=0;Velocity.z=0;
+    Position.x=0;Position.y=0;Position.z=0;
+}
 geometry_msgs::Vector3 CerasusOdom::TransAc(double x,double y){
     geometry_msgs::Vector3 NewAc;
     NewAc.x=x*cosf(Angle)-y*sinf(Angle);

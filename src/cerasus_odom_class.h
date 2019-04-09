@@ -7,7 +7,8 @@
 #include <sensor_msgs/Imu.h>
 class CerasusOdom{
 public:
-    CerasusOdom(tf::Transform _position,float _cycle=0);
+    CerasusOdom(tf::Transform _position,float _cycle);
+    CerasusOdom();
     tf::Transform OdomUpdate(sensor_msgs::Imu _imu);
     void EndOdom();
 

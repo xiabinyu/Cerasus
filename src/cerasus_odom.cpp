@@ -8,7 +8,7 @@
 
 CerasusOdom ceo;
 int main(int argc, char** argv){
-	ros::init(argc, argv, "cerasus_odom")
+	ros::init(argc, argv, "cerasus_odom");
 
 	ros::NodeHandle node;
 

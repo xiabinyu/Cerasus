@@ -5,6 +5,8 @@
 #include <tf/transform_broadcaster.h>
 #include <turtlesim/Pose.h>
 #include "cerasus_odom_class.h"
+
+CerasusOdom ceo;
 int main(int argc, char** argv){
 	ros::init(argc, argv, "cerasus_odom")
 

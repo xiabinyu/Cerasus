@@ -6,7 +6,7 @@
 #include <geometry_msgs/Vector3.h>
 #include <sensor_msgs/Imu.h>
 
-#include <sensor_msgs/Float64.h>
+#include <std_msgs/Float64.h>
 class CerasusOdom{
 public:
     CerasusOdom(tf::Transform _position,float _cycle);

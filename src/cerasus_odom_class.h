@@ -5,6 +5,8 @@
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/Vector3.h>
 #include <sensor_msgs/Imu.h>
+
+#include <sensor_msgs/Float32.h>
 class CerasusOdom{
 public:
     CerasusOdom(tf::Transform _position,float _cycle);

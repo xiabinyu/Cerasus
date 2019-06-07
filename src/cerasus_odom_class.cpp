@@ -38,8 +38,8 @@ geometry_msgs::Vector3 TransAc_New(std_msgs::Float64 _rpm){
 
 
     geometry_msgs::Vector3 NewAc;
-    NewAc.x=_rpm*0.0135*cosf(_rpm.data);
-    NewAc.y=_rpm*0.0135*cosf(_rpm.data);
+    NewAc.x=0.0135*cosf(_rpm.data);
+    NewAc.y=0.0135*sinf(_rpm.data);
     NewAc.z=0;
     return NewAc;
 }

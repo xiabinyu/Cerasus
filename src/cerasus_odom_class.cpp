@@ -34,4 +34,26 @@ tf::Transform CerasusOdom::OdomUpdate(sensor_msgs::Imu _imu) {
     temp_transform.setRotation(temp_quaternion);
     return temp_transform;
 }
+geometry_msgs::Vector3 TransAc_New(std_msgs::Float64 _rpm){
+
+
+    geometry_msgs::Vector3 NewAc;
+    NewAc.x=x*cosf(_rpm.data);
+    NewAc.y=x*sinf(_rpm.data);
+    NewAc.z=0;
+    return NewAc;
+}
+tf::Transform OdomUpdate_New(sensor_msgs::Imu _imu,std_msgs::Float64 _rpm){
+    Angle+=_imu.angular_velocity.z*CYCLE;
+    Velocity=TransAc_New(_rpm);
+    Position.x+=Velocity.x*CYCLE;
+    Position.y+=Velocity.y*CYCLE;
+    Position.z+=Velocity.z*CYCLE;
+    tf::Transform temp_transform;
+    temp_transform.setOrigin(tf::Vector3(Position.x,Position.y,Position.z));//设定坐标
+    tf::Quaternion temp_quaternion;
+    temp_quaternion.setRPY(0, 0, Angle);//设定方向
+    temp_transform.setRotation(temp_quaternion);
+    return temp_transform;
+}
 void CerasusOdom::EndOdom(){};

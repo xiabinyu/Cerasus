@@ -1,0 +1,13 @@
+<launch>
+    <node pkg="cerasus" type="cerasus_odom" name="myodom" output="screen">
+        <!-- Map size / start point -->
+        <!-- Map update parameters -->
+        <!--
+          <param name="pub_drawings" value="true"/>
+          <param name="pub_debug_output" value="true"/>
+        -->
+    </node>
+    <node pkg="rosbag" type="play" name="myplay" args="--clock /home/xiabinyu/bag/8.bag"/>
+    <!--rviz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cerasus)/rviz/odom.rviz" />
+</launch>

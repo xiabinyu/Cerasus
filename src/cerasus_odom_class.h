@@ -9,10 +9,10 @@
 #include <std_msgs/Float64.h>
 class CerasusOdom{
 public:
-    CerasusOdom(tf::Transform _position,float _cycle);
+    CerasusOdom(const tf::Transform _position,const float _cycle);
     CerasusOdom();
-    tf::Transform OdomUpdate(sensor_msgs::Imu _imu);
-    tf::Transform OdomUpdate_New(sensor_msgs::Imu _imu,std_msgs::Float64 _rpm);
+    tf::Transform OdomUpdate(const sensor_msgs::Imu _imu);
+    tf::Transform OdomUpdate_New(const sensor_msgs::Imu _imu,const std_msgs::Float64 _rpm);
     void EndOdom();
 private:
     float Angle;

@@ -20,10 +20,26 @@ geometry_msgs::Vector3 CerasusOdom::TransAc(double x,double y){
     NewAc.z=0;
     return NewAc;
 };
+
+void CerasusOdom::OdomInit(const sensor_msgs::Imu _imu){
+    Acceleration_Avg.x=(Acceleration_Avg.x*inittime+_imu.linear_acceleration.x)/(inittime+1);
+    Acceleration_Avg.y=(Acceleration_Avg.y*inittime+_imu.linear_acceleration.y)/(inittime+1);
+    Acceleration_Avg.z=(Acceleration_Avg.z*inittime+_imu.linear_acceleration.z)/(inittime+1);
+    z_Avg=(z_Avg*inittime+_imu.angular_velocity.z)/(inittime+1);
+    inittime++;
+}
+void CerasusOdom::ReadInit() {
+    ROS_INFO_STREAM("**********Initialized:*********");
+    ROS_INFO_STREAM("Ac.x:%lf",Acceleration_Avg.x);
+    ROS_INFO_STREAM("Ac.y:%lf",Acceleration_Avg.y);
+    ROS_INFO_STREAM("Ac.z:%lf",Acceleration_Avg.z);
+    ROS_INFO_STREAM("z:%lf",z_Avg);
+
+}
 tf::Transform CerasusOdom::OdomUpdate(const sensor_msgs::Imu _imu) {
-    //Angle+=_imu.angular_velocity.z*CYCLE;
-    Angle=_imu.orientation.w
-    Acceleration=TransAc(_imu.linear_acceleration.x,_imu.linear_acceleration.y);
+    Angle+=(_imu.angular_velocity.z-z_Avg)*CYCLE;
+    //Angle=_imu.orientation.w
+    Acceleration=TransAc(_imu.linear_acceleration.x-Acceleration_Avg.x,_imu.linear_acceleration.y-Acceleration_Avg.y);
     Velocity.x+=Acceleration.x*CYCLE;
     Velocity.y+=Acceleration.y*CYCLE;
     Velocity.z+=Acceleration.z*CYCLE;

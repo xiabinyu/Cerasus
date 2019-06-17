@@ -22,11 +22,23 @@ int main(int argc, char** argv){
 
 void Callback(sensor_msgs::Imu imu){
 	static tf::TransformBroadcaster br;
-	tf::Transform transform=ceo.OdomUpdate(imu);
-	br.sendTransform(tf::StampedTransform(transform,
-										  ros::Time::now(),
-										  "odom",
-										  "base_link"));
+	static int t=0;
+	if(t<200) {
+		if (t = 0) {
+			ROS_INFO_STREAM("Initializing……Please leave the imu still");
+		}
+		ceo.OdomInit(imu);
+	}else if(t=200) {
+		ceo.ReadInit();
+	}else{
+
+		tf::Transform transform = ceo.OdomUpdate(imu);
+		br.sendTransform(tf::StampedTransform(transform,
+											  ros::Time::now(),
+											  "odom",
+											  "base_link"));
+	}
+	t++;
 
 }
 

@@ -16,7 +16,10 @@ public:
     tf::Transform OdomUpdate(const sensor_msgs::Imu _imu);
     tf::Transform OdomUpdate_New(const sensor_msgs::Imu _imu,const std_msgs::Float64 _rpm);
     void EndOdom();
+    void NewCycle(float _cycle);
+    int t;
 private:
+    float LastTime;
     float Angle;
     geometry_msgs::Vector3 TransAc(double x,double y);
     tf::Transform Odom;

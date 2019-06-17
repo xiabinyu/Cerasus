@@ -7,41 +7,65 @@
 #include "cerasus_odom_class.h"
 
 CerasusOdom ceo;
+sensor_msgs::Imu myimu;
+std_msgs::Float64 myrpm;
+bool sign=0;
+bool sign0=0;
+bool sign1=0;
 void Callback(sensor_msgs::Imu imu);
-
-void Callback(sensor_msgs::Imu imu,std_msgs::Float64 _rpm);
+void realcall();
+void Callback2(std_msgs::Float64 _rpm);
 int main(int argc, char** argv){
 	ros::init(argc, argv, "cerasus_odom");
-
+    //ROS_INFO_STREAM("1");
 	ros::NodeHandle nh;
-
+    //ROS_INFO_STREAM("2");
 	ros::Subscriber sub = nh.subscribe("/imu", 1, Callback);
+
+    ros::Subscriber sub2 = nh.subscribe("/rpm", 1, Callback2);
 	ros::spin();
 	return 0;
 }
 
 void Callback(sensor_msgs::Imu imu){
-	static tf::TransformBroadcaster br;
-	static int t=0;
-	if(t<200) {
-		if (t = 0) {
-			ROS_INFO_STREAM("Initializing……Please leave the imu still");
-		}
-		ceo.OdomInit(imu);
-	}else if(t=200) {
-		ceo.ReadInit();
-	}else{
-
-		tf::Transform transform = ceo.OdomUpdate(imu);
-		br.sendTransform(tf::StampedTransform(transform,
-											  ros::Time::now(),
-											  "odom",
-											  "base_link"));
-	}
-	t++;
-
+    //ROS_INFO_STREAM("3");
+    myimu=imu;
+    if(sign1){
+        realcall();
+        sign1= false;
+    }else{
+        sign0 = true;
+    }
 }
 
-void Callback(sensor_msgs::Imu imu,std_msgs::Float64 _rpm){
+void Callback2(std_msgs::Float64 _rpm){
+    myrpm=_rpm;
 
+    if(sign0){
+        realcall();
+        sign0= false;
+    }else{
+        sign1 = true;
+    }
+}
+
+void realcall() {
+    static tf::TransformBroadcaster br;
+    static int t = 0;
+    if (t < 200) {
+        if (t == 0) {
+            ROS_INFO_STREAM("Initializing... ... Please leave the imu still");
+        }
+        ceo.OdomInit(myimu);
+    } else if (t == 200) {
+        ceo.ReadInit();
+    } else {
+
+        tf::Transform transform = ceo.OdomUpdate_New(myimu,myrpm);
+        br.sendTransform(tf::StampedTransform(transform,
+                                              ros::Time::now(),
+                                              "odom",
+                                              "base_link"));
+    }
+    t++;
 }

@@ -51,8 +51,8 @@ tf::Transform CerasusOdom::OdomUpdate(const sensor_msgs::Imu _imu) {
     //Velocity.x+=Acceleration.x*CYCLE;
     //Velocity.y+=Acceleration.y*CYCLE;
     //Velocity.z+=Acceleration.z*CYCLE;
-    //Position.x+=tVelocity.x*CYCLE;
-    //Position.y+=tVelocity.y*CYCLE;
+    Position.x+=tVelocity.x*CYCLE;
+    Position.y+=tVelocity.y*CYCLE;
     tf::Transform temp_transform;
     temp_transform.setOrigin(tf::Vector3(Position.x,Position.y,Position.z));//设定坐标
     tf::Quaternion temp_quaternion;
@@ -73,17 +73,18 @@ geometry_msgs::Vector3 CerasusOdom::TransAc_New(const std_msgs::Float64 _rpm){
 }
 tf::Transform CerasusOdom::OdomUpdate_New(const sensor_msgs::Imu _imu,const std_msgs::Float64 _rpm){
     CYCLE=(ros::Time::now().toSec()-LastTime);
+    //std::cout<<ros::Time::now().toSec()<<" "<<CYCLE<<std::endl;
     Angle+=(_imu.angular_velocity.z-z_Avg)*CYCLE*2;//Double it during the Unit Reason
     //Angle=_imu.orientation.w
 
     Acceleration.x=_imu.linear_acceleration.x-Acceleration_Avg.x;
-    Velocity.x+=0.0135*_rpm.data*CYCLE;
+    Velocity.x+=0.000135*_rpm.data*CYCLE;
     geometry_msgs::Vector3 tVelocity=TransAc(Velocity.x,0);
     //Velocity.x+=Acceleration.x*CYCLE;
     //Velocity.y+=Acceleration.y*CYCLE;
     //Velocity.z+=Acceleration.z*CYCLE;
-    //Position.x+=tVelocity.x*CYCLE;
-    //Position.y+=tVelocity.y*CYCLE;
+    Position.x+=tVelocity.x*CYCLE;
+    Position.y+=tVelocity.y*CYCLE;
     tf::Transform temp_transform;
     temp_transform.setOrigin(tf::Vector3(Position.x,Position.y,Position.z));//设定坐标
     tf::Quaternion temp_quaternion;

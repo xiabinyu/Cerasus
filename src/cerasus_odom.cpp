@@ -22,7 +22,7 @@ int main(int argc, char** argv){
     //ROS_INFO_STREAM("2");
 	ros::Subscriber sub = nh.subscribe("/imu", 1, Callback);
 
-    ros::Subscriber sub2 = nh.subscribe("/rpm", 1, Callback2);
+    ros::Subscriber sub2 = nh.subscribe("/motor/rpm", 1, Callback2);
 	ros::spin();
 	return 0;
 }
@@ -52,7 +52,7 @@ void Callback2(std_msgs::Float64 _rpm){
 void realcall() {
     static tf::TransformBroadcaster br;
     static int t = 0;
-    if (t < 200) {
+    if (t < 2) {
         if (t == 0) {
             ROS_INFO_STREAM("Initializing... ... Please leave the imu still");
         }

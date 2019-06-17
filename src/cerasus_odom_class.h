@@ -19,7 +19,7 @@ public:
     void NewCycle(float _cycle);
     int t;
 private:
-    float LastTime;
+    double LastTime;
     float Angle;
     geometry_msgs::Vector3 TransAc(double x,double y);
     tf::Transform Odom;
@@ -30,7 +30,7 @@ private:
     geometry_msgs::Vector3 Acceleration;
     geometry_msgs::Vector3 Acceleration_Avg;
     float z_Avg;
-    float CYCLE;
+    double CYCLE;
     int inittime;
 };
 

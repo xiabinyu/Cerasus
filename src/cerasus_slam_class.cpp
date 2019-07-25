@@ -1,6 +1,9 @@
+//
+// Created by xiabinyu on 7/25/19.
+//
+
+#include "cerasus_slam_class.h"
 // Class Source
-//F(x,y)=(x*cos(a)-y*sin(a),x*sin(a)+y*cos(a))
-#include "cerasus_odom_class.h"
 #include <ros/ros.h>
 #include <math.h>
 CerasusOdom::CerasusOdom(const tf::Transform _position,const float _cycle){

@@ -1,6 +1,10 @@
-//Class Head file
-#ifndef CERASUS_ODOM_CLASS
-#define CERASUS_ODOM_CLASS
+//
+// Created by xiabinyu on 7/25/19.
+//
+
+#ifndef CERASUS_CERASUS_SLAM_CLASS_H
+#define CERASUS_CERASUS_SLAM_CLASS_H
+
 
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/Vector3.h>
@@ -38,4 +42,5 @@ private:
     int inittime;
 };
 
-#endif
+
+#endif //CERASUS_CERASUS_SLAM_CLASS_H

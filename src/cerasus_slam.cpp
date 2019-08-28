@@ -110,7 +110,7 @@ void Callback(sensor_msgs::LaserScan scan) {
         }
     }
     for (int j = 0; j < count-1; ++j) {
-        LandMark::getRF(LM[j],LM[j+1],Direction,RF+j);
+//        LandMark::getRF(LM[j],LM[j+1],Direction,RF+j);
 
     }
 

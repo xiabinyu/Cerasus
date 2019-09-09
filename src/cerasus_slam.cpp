@@ -179,32 +179,31 @@ void Callback(sensor_msgs::LaserScan lidar) {
                 ParkStart=1;
             }
         }
+        std::cout<<countOb<<"|||"<<N[0]<<"|";
+        std::cout<<Direction<<std::endl;
+
+        double k=400*Direction;
+        double sR=0;
+        double sN=0;
+        for(int i=3;i>=0;i--){
+            sR+=R[i]*Direction;
+            sN+=N[i];
+        }
+        ang=k*1.0*(((LLdis)-(sR)/(sN)));
     }
 
-    std::cout<<countOb<<"|||"<<N[0]<<"|"<<Direction<<std::endl;
 
-    double k=400*Direction;
-    double sR=0;
-    double sN=0;
-    for(int i=3;i>=0;i--){
-        sR+=R[i]*Direction;
-        sN+=N[i];
-    }
-    ang=k*1.0*(((LLdis)-(sR)/(sN)));
-}
+    double steer_angle = ang;//atan(2 * L * y / (x * x + y * y)) * 180 / PI;
+    if(steer_angle > MAXANG){steer_angle = MAXANG;}
+    else if(steer_angle < MINANG){steer_angle = MINANG;}
+    else {steer_angle = steer_angle;}
 
-
-double steer_angle = ang;//atan(2 * L * y / (x * x + y * y)) * 180 / PI;
-if(steer_angle > MAXANG)steer_angle = MAXANG;
-else if(steer_angle < MINANG)steer_angle = MINANG;
-else steer_angle = steer_angle;
-
-geometry_msgs::Twist twist;
-twist.linear.x = vec*i_vec;
-twist.linear.y = twist.linear.z = 00;
-twist.angular.x = twist.angular.y = 0;
-twist.angular.z = steer_angle / MAXANG * 1;
-cmd_pub.publish(twist);
+    geometry_msgs::Twist twist;
+    twist.linear.x = vec*i_vec;
+    twist.linear.y = twist.linear.z = 00;
+    twist.angular.x = twist.angular.y = 0;
+    twist.angular.z = steer_angle / MAXANG * 1;
+    cmd_pub.publish(twist);
 }
 void Callback2(std_msgs::Int32 dir){
     static double PNum=0;

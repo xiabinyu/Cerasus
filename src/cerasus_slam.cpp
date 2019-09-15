@@ -35,6 +35,9 @@ static int ParkStart=0;//Found the park sign: Ready to park any time.
 static int ParkSign=0;//The lidar found the sign that the car is near the park and
 // then the park program will take care of the rest.
 
+static int countTTS=0;
+static int DLsign=0;
+static int DRsign=0;
 static ros::Publisher cmd_pub;//Preset for ROS.
 static ros::NodeHandle* nhp;//Preset for ROS.
 
@@ -43,8 +46,15 @@ void Callback2(std_msgs::Int32 dir);
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "detect_target_slam");
-    if (argc>1){
+    if (argv[1][0]=='1'){
         LLLdis=0.4;
+    }else if(argv[1][0]=='2'){
+        DLsign=1;
+    }else if(argv[1][0]=='3'){
+        DRsign=1;
+    }
+    if (argc>2){
+        countTTS=atoi(argv[2]);
     }
     ros::NodeHandle nh;
     nhp=&nh;
@@ -110,31 +120,26 @@ void Callback(sensor_msgs::LaserScan lidar) {
             }
         }
     }else{
-        static int countT=0;
-        countT++;
         static bool signS=0;
-        int countTTS;
-        if(i_vec||signS){
-            static int countTS=countT;
-            countTTS=countTS;
+        if(i_vec){
             signS=1;
         }
-        if(!signS&&(countT-countTTS)>=75&&(countT-countTTS)<=85){
+        if(signS){
+            countTTS++;
+        }
+        if(signS&&(countTTS)>=75&&(countTTS)<=154){
             LLdis=LLLdis;
         }
-        if(!signS&&(countT-countTTS)>=190&&(countT-countTTS)<=200){
-            LLdis=0.4;
-        }
-        if(!signS&&(countT-countTTS)>=155&&(countT-countTTS)<=165){
+        if(signS&&(countTTS)>=155){
             Direction=LEFT;
             LLdis=0.4;
         }
 
-        if(!signS&&(countT-countTTS)>=280&&(countT-countTTS)<=286){
+        if(signS&&(countTTS)>=280){
             PPSign=1;
             vec=0.8;
         }
-        std::cout<<"&|"<<countT-countTTS<<"|&";
+        std::cout<<"&|"<<countTTS<<"|&";
 
 
         double R[4]={0};
@@ -215,10 +220,16 @@ void Callback2(std_msgs::Int32 dir){
         i_vec=1;
         SSign=0;
         Direction=LEFT;
+        if(DLsign){
+            LLLdis=0.4;
+        }
     }else if(dir.data==3&&SSign){
         i_vec=1;
         SSign=0;
         Direction=RIGHT;
+        if(DRsign){
+            LLLdis=0.4;
+        }
     }else if(dir.data==4&&PPSign){
         PNum=PNum+1;
         PSum=PSum+1;
